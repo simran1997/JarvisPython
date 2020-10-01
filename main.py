@@ -5,6 +5,8 @@ import wikipedia #pip install wikipedia
 import webbrowser
 import os
 import smtplib
+import requests
+import json
 
 # for mac just import system from os and ake text to speach using say command in system method as follows
 # system('say text-to-speech')
@@ -15,11 +17,25 @@ engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 # print(voices[1].id)
 engine.setProperty('voice', voices[0].id)
-
-
+    
+    
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
+    
+def speak_news():
+    url = 'http://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey=yourapikey'
+    news = requests.get(url).text
+    news_dict = json.loads(news)
+    arts = news_dict['articles']
+    speak('Source: The Times Of India')
+    speak('Todays Headlines are..')
+    for index, articles in enumerate(arts):
+        speak(articles['title'])
+        if index == len(arts)-1:
+            break
+        speak('Moving on the next news headline..')
+    speak('These were the top headlines, Have a nice day Sir!!..')    
 
 
 def wishMe():
@@ -78,6 +94,9 @@ if __name__ == "__main__":
             print(results)
             speak(results)
 
+            
+        elif 'news' in query:
+            speak_news()
         elif 'open youtube' in query:
             webbrowser.open("http://www.youtube.com")
 
