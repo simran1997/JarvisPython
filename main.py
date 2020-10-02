@@ -4,6 +4,7 @@ import datetime
 import wikipedia #pip install wikipedia
 import webbrowser
 import os
+import pyjokes
 import smtplib
 
 # for mac just import system from os and ake text to speach using say command in system method as follows
@@ -101,6 +102,11 @@ if __name__ == "__main__":
         elif 'open code' in query:
             codePath = "C:\\Path-to-file\\Code.exe"
             os.startfile(codePath)
+            
+         elif 'joke' in query:
+            jk=pyjokes.get_joke() 
+            print(jk)
+            speak(jk)   
 
         elif 'email to simran' in query:
             try:
